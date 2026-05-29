@@ -1,0 +1,14 @@
+---
+description: Create the RESOURCETABLE table
+migrations:
+  - migrate: >
+      CREATE TABLE IF NOT EXISTS SERVICESCHEMA.RESOURCETABLE (
+        id          TEXT PRIMARY KEY,
+        tenant_id   TEXT NOT NULL,
+        name        TEXT NOT NULL,
+        created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_RESOURCETABLE_tenant ON SERVICESCHEMA.RESOURCETABLE (tenant_id);
+    rollback: >
+      DROP TABLE IF EXISTS SERVICESCHEMA.RESOURCETABLE;

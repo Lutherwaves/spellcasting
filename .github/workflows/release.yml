@@ -41,9 +41,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Sync plugin manifests to released version
-        if: steps.semrel.outputs.new_release_published == 'true'
+        if: steps.semrel.outputs.version != ''
         env:
-          NEW_VERSION: ${{ steps.semrel.outputs.new_release_version }}
+          NEW_VERSION: ${{ steps.semrel.outputs.version }}
         run: |
           bash scripts/bump-version.sh "$NEW_VERSION"
           git config user.name 'github-actions[bot]'

@@ -101,10 +101,9 @@ kill %1
 
 Out-of-bounds for this cast — if any of these appear in the generated tree, you've drifted; revert the offending file and use the in-bounds equivalent from `magic-capabilities`:
 
-- `github.com/blox-eng/common/*`
-- `commonmiddlewares.*`
-- gate ACL `Guard`
-- Any custom auth, rate-limit, audit, or cache middleware
+- Any project-specific "common" Go module that wraps magic
+- Any custom auth, rate-limit, audit, or cache middleware not provided by magic
+- Any per-resource ACL authorizer beyond `middlewares.RequireRole`
 
 In-bounds surface: see `magic-capabilities`.
 

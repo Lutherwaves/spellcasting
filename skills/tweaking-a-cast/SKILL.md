@@ -99,7 +99,7 @@ Commit: `feat: swap storage adapter to ${NEW}`.
 
 ## Capability boundary
 
-Tweaks stay inside the in-bounds surface. If a tweak would require importing `blox-eng/common/*` or a project-specific middleware, that's a sign the modification is out of scope for spellcasting — point the user at `magic-capabilities` to find an in-bounds equivalent or punt the change.
+Tweaks stay inside the in-bounds surface. If a tweak would require importing a project-specific common library or middleware, that's a sign the modification is out of scope for spellcasting — point the user at `magic-capabilities` to find an in-bounds equivalent or punt the change for them to make by hand.
 
 ## Doc references
 

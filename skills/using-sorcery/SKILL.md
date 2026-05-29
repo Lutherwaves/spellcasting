@@ -26,7 +26,9 @@ Every cast and every template is hard-bounded to:
 
 **In-bounds:** `github.com/tink3rlabs/magic/{storage, middlewares, observability, health, leadership, mql, errors, logger, pubsub}` · `github.com/tink3rlabs/todo-service` source layout · standard ecosystem (`chi`, `chi/middleware`, `chi/cors`, `chi/render`, `cobra`, `viper`, `slog`).
 
-**Out-of-bounds — NEVER quote, import, or name in templates or generated code:** `github.com/blox-eng/common/*` (`commonmiddlewares`, `commonattachments`, `commonstorage`, `db.Bootstrap`, `db.Open`, `encryption`, `configinitializer`) · gate ACL `Guard` · any project-specific middleware (rate limit, audit, cache, default-tenant override).
+**Out-of-bounds — NEVER quote, import, or name in templates or generated code:** any project-specific common library (e.g. an org's shared middlewares, attachments, storage helpers, encryption wrappers, config initializers) · any per-resource ACL authorizer beyond what magic ships · any custom rate-limit, audit, cache, or tenant-override middleware not in magic.
+
+If the user's project has such helpers, they're applied *after* the cast completes — never inside the cast.
 
 Exhaustive surface: invoke the `magic-capabilities` skill.
 
@@ -78,8 +80,8 @@ digraph cast_flow {
 | Thought | Reality |
 |---|---|
 | "User just asked for a route, skip the wizard" | A route pulls types, validation, often service + migration. Use `casting-a-route` — it auto-chains. |
-| "I'll copy from blox-1/base since it's right there" | blox-1 is inspirational. Out-of-bounds for templates. Use only `magic` + `todo-service`. |
-| "I'll just use `commonmiddlewares.RateLimitMiddleware`" | Not in magic. Forbidden. |
+| "I'll copy from another service in the user's monorepo since it's right there" | Other services may use project-specific helpers. Out-of-bounds for templates. Use only `magic` + `todo-service` shapes. |
+| "I'll just use the user's project rate-limit middleware" | Not in magic. Forbidden inside a cast — if the user wants it, they add it after the cast completes. |
 | "Tiny tweak, just edit the file" | DTO-completeness: DB struct → Create DTO → Update DTO → validation → service → migration. Use `tweaking-a-cast`. |
 | "Wizard is overkill for an obvious service" | Multi-tenancy, soft-delete, role guards aren't derivable from the description. Wizard exists for that. |
 | "Scaffold first, tests after" | Casts ship `*_test.go` in the same pass. No "after". |

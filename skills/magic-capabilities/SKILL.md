@@ -112,25 +112,25 @@ Every cast template references only what's in this surface. If a generated file 
 
 ## Hard boundary — out-of-bounds for every cast
 
-If a generated file imports or names any of these, the cast has failed:
+If a generated file imports or names any of the following categories, the cast has failed:
 
-- `github.com/blox-eng/common/*` — including `commonmiddlewares` (`RequestLogger`, `RateLimitMiddleware`, `AuditMiddleware`, `CacheMiddleware`, `DefaultTenantMiddleware`, `AdminTenantOverride`), `commonattachments`, `commonstorage`, `db.Bootstrap`, `db.Open`, `encryption`, `configinitializer`
-- gate ACL `Guard` (project-specific authorizer; out-of-scope for v0.1)
-- Any project-specific rate limit, audit, or cache middleware
+- Any project-specific "common" library (request loggers, rate limiters, audit middleware, cache middleware, default-tenant overrides, admin overrides) that lives outside `github.com/tink3rlabs/magic`
+- Any custom storage bootstrap wrapper that hides `storage.NewStorageAdapter()` / `storage.NewDatabaseMigration(...).Migrate()`
+- Any per-resource ACL authorizer beyond `middlewares.RequireRole`
+- Any encryption-at-rest wrapper not provided by magic
 
-In-bounds equivalents:
+In-bounds equivalents for common needs:
 
-| Forbidden | Use instead |
+| You might want | In-bounds option |
 |---|---|
-| `commonmiddlewares.RequestLogger` | chi `middleware.Logger` or magic's slog handler |
-| `commonmiddlewares.RateLimitMiddleware` | (not in v0.1; user-supplied) |
-| `commonmiddlewares.AuditMiddleware` | (not in v0.1; user-supplied) |
-| `commonmiddlewares.CacheMiddleware` | (not in v0.1; user-supplied) |
-| `commonmiddlewares.DefaultTenantMiddleware` | `middlewares.TenantRequestContext` |
-| `commonmiddlewares.AdminTenantOverride` | (not in v0.1; user-supplied) |
-| `db.Bootstrap` / `db.Open` | `storage.NewStorageAdapter()` + `storage.NewDatabaseMigration(...).Migrate()` |
-| `commonattachments.*` / `commonstorage.*` | (not in v0.1; domain-specific) |
-| gate ACL `Guard` | `middlewares.RequireRole` (role-based, no per-resource ACL) |
+| Structured request logging | chi's `middleware.Logger`, or magic's slog handler |
+| Rate limiting | not in v0.1; user adds after the cast |
+| Audit logging | not in v0.1; user adds after the cast |
+| Response caching | not in v0.1; user adds after the cast |
+| Tenant context on every request | `middlewares.TenantRequestContext` |
+| Storage bootstrap + migrations | `storage.NewStorageAdapter()` + `storage.NewDatabaseMigration(adapter).Migrate()` |
+| Role-based authorization | `middlewares.RequireRole` |
+| Per-resource ACL | not in v0.1; user adds after the cast |
 
 ## Drift protocol
 

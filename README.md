@@ -6,13 +6,35 @@ A Claude Code plugin that scaffolds and extends Go microservices built on [`gith
 
 ## Install
 
+### Claude Code
+
 ```bash
 /plugin marketplace add https://github.com/Lutherwaves/spellcasting
 /plugin install spellcasting@magic
 /reload-plugins
 ```
 
-Once installed, `using-sorcery` is auto-loaded on session start — your agent learns the cast catalog and capability boundary immediately.
+The SessionStart hook auto-loads `using-sorcery`.
+
+### Codex CLI
+
+```bash
+git clone https://github.com/Lutherwaves/spellcasting.git
+cd spellcasting
+bash scripts/install-codex.sh
+```
+
+This symlinks each skill into `~/.agents/skills/`. Codex picks them up on next launch. Tool mapping: see [`references/codex-tools.md`](references/codex-tools.md).
+
+### Cursor
+
+```bash
+git clone https://github.com/Lutherwaves/spellcasting.git
+cd /path/to/your/project
+bash /path/to/spellcasting/scripts/install-cursor.sh
+```
+
+This generates `.cursor/rules/*.mdc` in your project. Trigger a rule in Cursor chat with `@<rule-name>` (e.g. `@using-sorcery`, `@divining-intent`). Tool mapping: see [`references/cursor-tools.md`](references/cursor-tools.md).
 
 ## Casts
 

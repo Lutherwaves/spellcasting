@@ -18,7 +18,8 @@ read -r -d '' PAYLOAD <<JSON || true
   "target": "branch",
   "enforcement": "active",
   "bypass_actors": [
-    { "actor_id": 5, "actor_type": "RepositoryRole", "bypass_mode": "always" }
+    { "actor_id": 5,     "actor_type": "RepositoryRole", "bypass_mode": "always" },
+    { "actor_id": 15368, "actor_type": "Integration",    "bypass_mode": "always" }
   ],
   "conditions": {
     "ref_name": {
@@ -72,4 +73,4 @@ fi
 
 echo
 echo "Ruleset '${RULESET_NAME}' applied to ${REPO} (target: default branch)"
-echo "Bypass: repo admins (matches enforce_admins:false on classic)"
+echo "Bypass: repo admins + GitHub Actions integration (so release.yml can push manifest sync)"

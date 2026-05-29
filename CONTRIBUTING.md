@@ -36,6 +36,18 @@ Update `using-sorcery` to list the new cast in its catalog. Update `magic-capabi
 
 The PR template's checklist asks: *"No project-specific common-library references introduced in templates or skills?"* Reviewers verify by grepping the diff for any of: project-specific package names that wrap magic, custom middleware that mirrors magic's functionality, or per-resource ACL authorizers beyond `RequireRole`.
 
+## Cutting a release
+
+Releases are tag-driven via Conventional Commits + go-semantic-release. Manifest versions (`package.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`) are bumped manually before tagging:
+
+```bash
+bash scripts/bump-version.sh <next-version>   # e.g. 0.2.0
+git commit -am "chore(release): bump manifests to v<next-version>"
+git push origin main
+```
+
+After CI passes, the release workflow cuts the matching tag. Auto-syncing manifests from the workflow is disabled because the main-branch ruleset blocks bot pushes (Integration bypass is not available on user-owned repos). If the repo moves under a GitHub org, add a `github-actions` Integration bypass in `scripts/setup-rulesets.sh` and re-enable the auto-sync step in `release.yml`.
+
 ## Magic version bumps
 
 When magic cuts a new tag:

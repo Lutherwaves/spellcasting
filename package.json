@@ -1,6 +1,6 @@
 {
   "name": "spellcasting",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "description": "Scaffold and extend microservices built on github.com/tink3rlabs/magic",
   "type": "module",
   "license": "MIT"

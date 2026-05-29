@@ -10,7 +10,7 @@
 - [ ] modified skill: <name>
 - [ ] new template: <path>
 - [ ] modified template: <path>
-- [ ] new command: `/cast:<name>`
+- [ ] platform adapter (Codex / Cursor / install scripts)
 - [ ] CI / release / branch protection
 - [ ] docs only
 

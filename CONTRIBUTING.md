@@ -26,10 +26,9 @@ Releases are cut automatically by [`go-semantic-release`](https://github.com/go-
 
 ## Adding a new cast
 
-Each cast is three things:
-1. A **skill** at `skills/<cast-name>/SKILL.md` (markdown body with the cast procedure, prerequisites, capability boundary).
-2. A **slash command** at `commands/<cast-command>.md` (thin wrapper that invokes the skill).
-3. **Templates** (where applicable) under `templates/<layer>/` that the skill tells the agent to read and adapt.
+Each cast is two things:
+1. A **skill** at `skills/<cast-name>/SKILL.md` (markdown body with the cast procedure, prerequisites, capability boundary). Spellcasting is skills-only — there are no slash commands. The agent picks the right cast from each skill's description.
+2. **Templates** (where applicable) under `templates/<layer>/` that the skill tells the agent to read and adapt.
 
 Update `using-sorcery` to list the new cast in its catalog. Update `magic-capabilities` if the cast references new magic symbols.
 

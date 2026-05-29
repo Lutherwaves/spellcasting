@@ -6,7 +6,7 @@ labels: bug
 
 ## What you ran
 
-`/cast:<name> <args>` — and any wizard answers you gave.
+The skill you invoked (e.g. `casting-a-new-service`, `tweaking-a-cast`) and the natural-language prompt you gave the agent — plus any answers `divining-intent` collected.
 
 ## What you expected
 

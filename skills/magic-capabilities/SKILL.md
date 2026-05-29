@@ -96,7 +96,7 @@ Every cast template references only what's in this surface. If a generated file 
 | `Publisher`, `Subscriber` | interfaces | Cross-adapter pub/sub contract | https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/pubsub |
 | adapter constructors | funcs | Backend-specific constructors selected via viper config | https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/pubsub |
 
-## todo-service shape (reference layout for `/cast:new`)
+## todo-service shape (reference layout for `casting-a-new-service`)
 
 | File | Role | URL |
 |---|---|---|

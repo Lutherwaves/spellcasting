@@ -9,7 +9,7 @@ Full vertical slice for a new resource: migration → types → service → rout
 
 ## Prerequisites
 
-A magic-based service exists at the cwd (identified by `cmd/server.go` importing `github.com/tink3rlabs/magic/middlewares`). If not, abort and suggest `/cast:new`.
+A magic-based service exists at the cwd (identified by `cmd/server.go` importing `github.com/tink3rlabs/magic/middlewares`). If not, abort and suggest `casting-a-new-service`.
 
 ## Inputs
 

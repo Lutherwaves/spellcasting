@@ -9,7 +9,7 @@ The interactive wizard. Asks one question at a time, builds a brief, and ends wi
 
 ## When to invoke
 
-- User said `/cast` with no args, or said something like "I want to build a new service" without specifying details
+- The user said something like "I want to build a new service" without specifying details
 - Multiple casts could apply and you can't tell which
 - The user's description leaves multi-tenancy, soft-delete, auth, or storage choice ambiguous
 
@@ -71,19 +71,19 @@ Free text. Used in commit messages, README, and the casting brief.
 ### Extension path
 
 **Q3'. Full vertical slice (migration + types + service + route)?**
-- A) Yes → `/cast:feature`
+- A) Yes → `casting-a-feature`
 - B) No → continue to Q4'
 
 **Q4'. Service layer only (types + features pkg, no HTTP)?**
-- A) Yes → `/cast:service`
+- A) Yes → `casting-a-service-layer`
 - B) No → continue to Q5'
 
 **Q5'. Route layer only?**
-- A) Yes → `/cast:route` (auto-chains `/cast:service` if missing)
+- A) Yes → `casting-a-route` (auto-chains `casting-a-service-layer` if missing)
 - B) No → continue to Q6'
 
 **Q6'. Modifying existing code (add field, filter, guard, soft-delete, swap adapter)?**
-- A) Yes → `/cast:tweak`
+- A) Yes → `tweaking-a-cast`
 - B) No → ask the user what they actually want; this skill doesn't fit
 
 ## Output format
@@ -106,8 +106,8 @@ When the answers are collected, emit a markdown brief in this exact shape:
 - Pub/sub: <Q10>
 
 ## Cast Sequence
-1. /cast:new <service-name>  (multi-tenancy=<...>, auth=<...>, storage=<...>, observability=<...>, leader-election=<...>, pubsub=<...>)
-2. /cast:feature <first-resource>
+1. `casting-a-new-service` for `<service-name>` (multi-tenancy=<...>, auth=<...>, storage=<...>, observability=<...>, leader-election=<...>, pubsub=<...>)
+2. `casting-a-feature` for `<first-resource>`
 3. <additional casts as needed>
 ```
 

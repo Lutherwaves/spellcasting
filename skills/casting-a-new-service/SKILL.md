@@ -10,11 +10,11 @@ Produces a complete, building Go service from `templates/service/` with placehol
 ## Prerequisites
 
 - Target directory is empty, OR a freshly `git init`-ed directory with no Go files.
-- If neither, **abort** — tell the user: "Target directory `<path>` already contains files; either choose an empty path or use `/cast:tweak` to modify what's there."
+- If neither, **abort** — tell the user: "Target directory `<path>` already contains files; either choose an empty path or invoke `tweaking-a-cast` to modify what's there."
 
 ## Inputs
 
-Collected by `divining-intent` if invoked through `/cast`; otherwise ask directly:
+Collected by `divining-intent` if invoked through `divining-intent`; otherwise ask directly:
 
 | Input | Type | Default |
 |---|---|---|
@@ -56,7 +56,7 @@ In `cmd/server.go`:
 |---|---|
 | `multi-tenancy: no` | Remove the line `r.Use(middlewares.TenantRequestContext)` |
 | `auth: none` | Remove `r.Use(authMiddleware)`, the whole `EnsureValidTokenConfig` block, and `middlewares.SetDefaultClaimsConfig(...)`. Drop the `auth.*` keys from `config/default.yaml` |
-| `auth: jwt+roles` | No code change here — the role guards land per-route via `/cast:feature` or `/cast:route` |
+| `auth: jwt+roles` | No code change here — the role guards land per-route via `casting-a-feature` or `casting-a-route` |
 | `observability: off` | Replace the `middlewares.ObservabilityWithOptions(...)` call with chi's `middleware.Logger`, remove the `/metrics` handler line, and delete `cmd/observability.go`. Drop the `observability.*` keys from `config/default.yaml` |
 | `observability: prom` | Set `observability.tracing.enabled: false` in `config/default.yaml`; keep prom + `/metrics` |
 | `observability: prom+otlp` | Default — leave as-is |

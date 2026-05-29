@@ -34,14 +34,16 @@ Exhaustive surface: invoke the `magic-capabilities` skill.
 
 ## Cast Catalog
 
-| Command | Skill | Use when | Produces |
-|---|---|---|---|
-| `/cast` | `divining-intent` | Non-trivial work; you need the wizard to map intent to casts | A markdown brief with the cast sequence and answers |
-| `/cast:new <name>` | `casting-a-new-service` | Bootstrapping a brand-new magic-based service | Full service tree: main.go, cmd/, embedded config/, Makefile, Dockerfile, CI |
-| `/cast:feature <name>` | `casting-a-feature` | Adding a complete resource end-to-end | Migration → types → service → route, with validation + tests |
-| `/cast:service <name>` | `casting-a-service-layer` | Domain logic only, no HTTP yet | `pkg/types/<name>.go` + `pkg/features/<name>/service.go` + test |
-| `/cast:route <name>` | `casting-a-route` | HTTP layer; auto-chains service layer if missing | `pkg/routes/<name>/{routes.go, validation.go, handler.go, routes_test.go}` + mount |
-| `/cast:tweak` | `tweaking-a-cast` | Modifying existing code (add field, add filter, add guard, swap adapter) | Targeted diffs respecting DTO-completeness |
+The user invokes casts in natural language ("scaffold a new service", "add a todos resource", "drop a soft-delete on invoices"). You pick the matching skill from this catalog and invoke it via the `Skill` tool. When intent is ambiguous, default to `divining-intent`.
+
+| Skill | Use when | Produces |
+|---|---|---|
+| `divining-intent` | Non-trivial work; intent is ambiguous; the user said something like "I want to build…" without details | A markdown brief with the cast sequence and answers |
+| `casting-a-new-service` | Bootstrapping a brand-new magic-based service | Full service tree: main.go, cmd/, embedded config/, Makefile, Dockerfile, CI |
+| `casting-a-feature` | Adding a complete resource end-to-end | Migration → types → service → route, with validation + tests |
+| `casting-a-service-layer` | Domain logic only, no HTTP yet | `pkg/types/<name>.go` + `pkg/features/<name>/service.go` + test |
+| `casting-a-route` | HTTP layer; auto-chains service layer if missing | `pkg/routes/<name>/{routes.go, validation.go, handler.go, routes_test.go}` + mount |
+| `tweaking-a-cast` | Modifying existing code (add field, add filter, add guard, swap adapter) | Targeted diffs respecting DTO-completeness |
 
 ## Decision Flow
 
@@ -79,7 +81,7 @@ digraph cast_flow {
 
 | Thought | Reality |
 |---|---|
-| "User just asked for a route, skip the wizard" | A route pulls types, validation, often service + migration. Use `casting-a-route` — it auto-chains. |
+| "User just asked for a route, skip the wizard" | A route pulls types, validation, often service + migration. Invoke `casting-a-route` — it auto-chains. |
 | "I'll copy from another service in the user's monorepo since it's right there" | Other services may use project-specific helpers. Out-of-bounds for templates. Use only `magic` + `todo-service` shapes. |
 | "I'll just use the user's project rate-limit middleware" | Not in magic. Forbidden inside a cast — if the user wants it, they add it after the cast completes. |
 | "Tiny tweak, just edit the file" | DTO-completeness: DB struct → Create DTO → Update DTO → validation → service → migration. Use `tweaking-a-cast`. |

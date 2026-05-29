@@ -16,14 +16,16 @@ Once installed, `using-sorcery` is auto-loaded on session start — your agent l
 
 ## Casts
 
-| Command | When to use it | Produces |
+Just say what you want — the agent picks the right cast. Following [`obra/superpowers`](https://github.com/obra/superpowers)' v5.1.0 lead, spellcasting has no slash commands; intent routes through skill descriptions and `divining-intent`.
+
+| Skill the agent will invoke | Triggered by phrasing like… | Produces |
 |---|---|---|
-| `/cast` | Non-trivial work — let the wizard map intent to casts | A casting brief with the cast sequence |
-| `/cast:new <name>` | Bootstrapping a brand-new magic-based service | Full service tree: `main.go`, `cmd/`, embedded `config/`, `Makefile`, `Dockerfile`, CI |
-| `/cast:feature <name>` | Adding a complete resource end-to-end | Migration → types → service → routes, with validation + tests |
-| `/cast:service <name>` | Domain logic only, no HTTP | `pkg/types/<name>.go` + `pkg/features/<name>/service.go` + test |
-| `/cast:route <name>` | HTTP layer (auto-chains service layer if missing) | `pkg/routes/<name>/{routes,validation,handler,routes_test}.go` + mount |
-| `/cast:tweak` | Modifying existing code (add field, add filter, add guard, swap adapter) | Targeted diffs respecting DTO-completeness |
+| `divining-intent` (the wizard) | "I want to build a service", anything ambiguous | A casting brief with the cast sequence |
+| `casting-a-new-service` | "scaffold a new service", "bootstrap a magic-based microservice" | Full service tree: `main.go`, `cmd/`, embedded `config/`, `Makefile`, `Dockerfile`, CI |
+| `casting-a-feature` | "add a `<resource>` end-to-end", "I need a CRUD for X" | Migration → types → service → routes, with validation + tests |
+| `casting-a-service-layer` | "add a service for X, no HTTP yet" | `pkg/types/<name>.go` + `pkg/features/<name>/service.go` + test |
+| `casting-a-route` | "expose `<resource>` over HTTP" (auto-chains service if missing) | `pkg/routes/<name>/{routes,validation,handler,routes_test}.go` + mount |
+| `tweaking-a-cast` | "add a column", "add a Lucene filter", "guard this route with role X", "swap to dynamodb" | Targeted diffs respecting DTO-completeness |
 
 ## Capability boundary
 

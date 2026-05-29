@@ -1,0 +1,22 @@
+config:
+  # Skill prose includes long sentences, code samples, and reference URLs.
+  # A hard 80-char limit makes the content unreadable.
+  MD013: false
+  # Skills use <SUBAGENT-STOP> and <EXTREMELY-IMPORTANT> sentinels
+  # (same pattern as obra/superpowers). These are intentional.
+  MD033: false
+  # Reference tables list bare pkg.go.dev URLs by design — wrapping each
+  # in <...> adds noise without changing what the user clicks.
+  MD034: false
+  # The using-sorcery skill body opens with a <SUBAGENT-STOP> tag, not a heading.
+  MD041: false
+
+globs:
+  - "**/*.md"
+
+ignores:
+  - "node_modules/**"
+  - ".cursor/**"
+  - "templates/service/**"
+  - "templates/route/**"
+  - "templates/service-layer/**"

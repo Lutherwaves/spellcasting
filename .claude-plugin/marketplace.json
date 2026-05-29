@@ -1,6 +1,6 @@
 {
-  "name": "spellcasting-dev",
-  "description": "Development marketplace for the spellcasting plugin",
+  "name": "magic",
+  "description": "Marketplace for spellcasting and other magic-ecosystem Claude Code plugins",
   "owner": {
     "name": "Lutherwaves",
     "email": "luther@waves.bg"

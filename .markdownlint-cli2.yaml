@@ -10,6 +10,12 @@ config:
   MD034: false
   # The using-sorcery skill body opens with a <SUBAGENT-STOP> tag, not a heading.
   MD041: false
+  # Skill prose intersperses tight lists with paragraphs; mandatory blank lines
+  # add visual noise without improving readability.
+  MD032: false
+  # Code blocks inside Go-flavored skills use real tabs (gofmt). Forbidding them
+  # in surrounding markdown adds work without value.
+  MD010: false
 
 globs:
   - "**/*.md"

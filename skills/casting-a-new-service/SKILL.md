@@ -63,7 +63,19 @@ In `cmd/server.go`:
 | `leader-election: yes` | Insert this in `runServer` before `initRoutes(...)`: `leadership.NewLeaderElection(leadership.LeaderElectionProps{HeartbeatInterval: viper.GetDuration("leadership.heartbeat"), StorageAdapter: storageAdapter, AdditionalProps: map[string]any{}}).Start()`. Add `leadership.heartbeat: 5s` to `config/default.yaml`. Add `"github.com/tink3rlabs/magic/leadership"` to imports |
 | `pubsub: yes` | Add `"github.com/tink3rlabs/magic/pubsub"` to imports; add stub initialization in `runServer`: `// TODO: wire publisher/subscriber using magic/pubsub here` (user finishes wiring) |
 
-Storage adapter choice is applied via `config/default.yaml` — `storage.type: <choice>`. For non-`memory` choices, the wizard should have also asked the user for connection details; populate the relevant `storage.<type>.{...}` keys.
+Storage adapter choice is applied via `config/default.yaml`. Use the `storage.type` key (value must match one of the constants: `memory`, `sql`, `cosmosdb`, `dynamodb`) and a flat `storage.config` map for connection details:
+
+```yaml
+storage:
+  type: sql          # memory | sql | cosmosdb | dynamodb
+  config:
+    schema: myservice
+    host: localhost
+    port: "5432"
+    # ... other adapter-specific keys
+```
+
+For non-`memory` choices, the wizard should have also asked the user for connection details; populate them under `storage.config.*` (flat map — **not** `storage.<type>.host` style nested keys).
 
 ### 4. Tidy + smoke-build
 
@@ -109,7 +121,7 @@ In-bounds surface: see `magic-capabilities`.
 
 ## Doc references (pinned to magic v0.17.3)
 
-- `storage.NewStorageAdapter`, `storage.NewDatabaseMigration`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage
+- `storage.StorageAdapterFactory.GetInstance`, `storage.NewDatabaseMigration`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage
 - `middlewares.ObservabilityWithOptions`, `EnsureValidToken`, `TenantRequestContext`, `UserRequestContext`, `RequireRole`, `ErrorHandler`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/middlewares
 - `observability.Init`, `Observer`, `Config`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/observability
 - `health.NewHealthChecker`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/health

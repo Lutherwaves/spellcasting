@@ -52,7 +52,7 @@ Free text. Used in commit messages, README, and the casting brief.
 
 **Q7. List endpoint shape?**
 - A) Cursor pagination only (`?limit=10&next=...`)
-- B) + Lucene `?filter=` via `mql.Parse`
+- B) + Lucene `?filter=` (passed to `storage.Search`; adapter evaluates)
 - C) + sort param
 
 **Q8. Observability?**

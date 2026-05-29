@@ -66,9 +66,10 @@ git commit -m "feat: add ${RESOURCE} service layer"
 
 ## Capability boundary
 
-Service layer uses `storage.StorageAdapter` only (no project-specific storage helpers). Lucene filters use `magic/mql.Parse`. See `magic-capabilities`.
+Service layer uses `storage.StorageAdapter` only (no project-specific storage helpers). Lucene filters pass through to `storage.Search` — the adapter parses and evaluates the raw Lucene string. Use `mql.NewParser(input).Parse()` only when you need in-process AST evaluation (validation, transformation, inspection). See `magic-capabilities`.
 
 ## Doc references
 
 - `storage.StorageAdapter`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage#StorageAdapter
-- `mql.Parse`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/mql#Parse
+- `storage.StorageAdapter.Search` (Lucene passthrough): https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage#StorageAdapter
+- `mql.NewParser` (in-process AST parsing only): https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/mql#NewParser

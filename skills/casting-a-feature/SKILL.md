@@ -35,19 +35,20 @@ NEXT=$(( ${NEXT:-0} + 1 ))
 NEXT_PAD=$(printf "%04d" $NEXT)
 ```
 
-Copy and substitute:
+Copy and substitute. The migration ID comes **only from the filename prefix** — the YAML body has no `id:` field. The template's real fields are `description:` and `migrations: [{migrate: ..., rollback: ...}]`. The `NNNN` token in the template filename is a placeholder; only the filename matters for ordering.
 
 ```bash
 cp "${CLAUDE_PLUGIN_ROOT}/templates/migration/config/migrations/postgresql/NNNN__create_RESOURCE.yaml" \
    "config/migrations/postgresql/${NEXT_PAD}__create_${RESOURCETABLE}.yaml"
 sed -i.bak \
-  -e "s/NNNN/${NEXT_PAD}/g" \
   -e "s/RESOURCETABLE/${RESOURCETABLE}/g" \
   -e "s/RESOURCE/${RESOURCE}/g" \
   -e "s/SERVICESCHEMA/${SCHEMA}/g" \
   "config/migrations/postgresql/${NEXT_PAD}__create_${RESOURCETABLE}.yaml"
 rm "config/migrations/postgresql/${NEXT_PAD}__create_${RESOURCETABLE}.yaml.bak"
 ```
+
+Note: the `s/NNNN/${NEXT_PAD}/g` substitution is intentionally omitted — `NNNN` does not appear in the YAML body, only in the source template's filename. The destination filename already has the correct prefix.
 
 ### 2. Emit service layer
 
@@ -77,6 +78,8 @@ Stay inside `magic/storage`, `magic/middlewares`, `magic/mql`, `magic/errors`. N
 
 ## Doc references
 
-- Migration shape: see `magic/storage` migration runner — https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage
+- Migration shape: see `magic/storage` migration runner — https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage#NewDatabaseMigration
+- Migration YAML schema: `description:` + `migrations: [{migrate: ..., rollback: ...}]`; no `id:` field — ID is the filename prefix only
 - Route shape: https://github.com/tink3rlabs/todo-service (`pkg/routes/<resource>/`)
-- Cursor pagination + Lucene filter: `magic/mql.Parse` — https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/mql
+- Cursor pagination via `storage.Search` (Lucene passthrough): https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage#StorageAdapter
+- In-process Lucene parsing (rarely needed): `mql.NewParser(input).Parse()` — https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/mql#NewParser

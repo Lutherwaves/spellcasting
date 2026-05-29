@@ -47,7 +47,7 @@ git commit -m "feat: add ${COLUMN} to ${RESOURCE}"
 
 ### Add a Lucene filter clause
 
-Edit `pkg/features/${RESOURCE}/service.go` — the `List` method. Pass the user-supplied filter through `magic/mql.Parse`, fold the resulting AST into the storage query. Add a test case to `service_test.go` exercising the new clause. Commit:
+Edit `pkg/features/${RESOURCE}/service.go` — the `List` method. Pass the user-supplied Lucene string directly to `storage.Search(...)` — the adapter parses and evaluates it. Do **not** call `mql.NewParser` in the service layer; only use it if you need in-process AST evaluation (validation, transformation, etc.). Add a test case to `service_test.go` exercising the new clause. Commit:
 
 ```bash
 git commit -am "feat: support ${CLAUSE} filter on ${RESOURCE} list"
@@ -85,7 +85,7 @@ Commit: `feat: add soft-delete to ${RESOURCE}`.
 
 1. Read current adapter from `viper.GetString("storage.type")` in `config/default.yaml`.
 2. Copy the new adapter snippet from `templates/adapter/${NEW}.snippet.go` (if helper code is needed) into `cmd/` or `pkg/features/<resource>/`.
-3. Update the viper config keys: `storage.type: ${NEW}` plus the new adapter's connection block.
+3. Update the viper config keys — use the real config shape: `storage.type: ${NEW}` (one of `memory`, `sql`, `cosmosdb`, `dynamodb`) plus connection details as a flat map under `storage.config.*` (e.g. `storage.config.host`, `storage.config.port`, `storage.config.schema`). **Do not** use the old `storage.<type>.host` nested style — `GetInstance` takes `viper.GetStringMapString("storage.config")`.
 4. `go mod tidy && go vet ./... && go build ./...`.
 5. If the new adapter is `dynamodb` or `cosmos`, double-check that the storage queries don't use SQL-specific syntax — `magic/storage` adapter contracts abstract this, but custom predicates may need adaptation.
 
@@ -103,6 +103,8 @@ Tweaks stay inside the in-bounds surface. If a tweak would require importing a p
 
 ## Doc references
 
-- `mql.Parse` (Lucene filter parsing): https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/mql#Parse
+- `storage.StorageAdapter.Search` (Lucene passthrough, canonical): https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage#StorageAdapter
+- `mql.NewParser` (in-process AST parsing only): https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/mql#NewParser
+- `storage.StorageAdapterFactory.GetInstance` (adapter construction): https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/storage#StorageAdapterFactory.GetInstance
 - `middlewares.RequireRole`: https://pkg.go.dev/github.com/tink3rlabs/magic@v0.17.3/middlewares#RequireRole
 - Migration shape (reference): https://github.com/tink3rlabs/todo-service/tree/main/config/migrations/postgresql

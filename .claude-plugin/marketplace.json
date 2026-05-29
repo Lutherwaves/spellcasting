@@ -1,0 +1,20 @@
+{
+  "name": "spellcasting-dev",
+  "description": "Development marketplace for the spellcasting plugin",
+  "owner": {
+    "name": "Lutherwaves",
+    "email": "luther@waves.bg"
+  },
+  "plugins": [
+    {
+      "name": "spellcasting",
+      "description": "Scaffold and extend microservices built on github.com/tink3rlabs/magic",
+      "version": "0.0.0",
+      "source": "./",
+      "author": {
+        "name": "Lutherwaves",
+        "email": "luther@waves.bg"
+      }
+    }
+  ]
+}

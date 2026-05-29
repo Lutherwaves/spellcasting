@@ -7,7 +7,9 @@ A Claude Code plugin that scaffolds and extends Go microservices built on [`gith
 ## Install
 
 ```bash
-/plugin install https://github.com/Lutherwaves/spellcasting
+/plugin marketplace add https://github.com/Lutherwaves/spellcasting
+/plugin install spellcasting@magic
+/reload-plugins
 ```
 
 Once installed, `using-sorcery` is auto-loaded on session start — your agent learns the cast catalog and capability boundary immediately.

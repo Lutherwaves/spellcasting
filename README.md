@@ -2,7 +2,7 @@
 
 > Cast magic-based microservices.
 
-A Claude Code plugin that scaffolds and extends Go microservices built on [`github.com/tink3rlabs/magic`](https://github.com/tink3rlabs/magic). Inspired by [`obra/superpowers`](https://github.com/obra/superpowers).
+A multi-platform agent plugin (Claude Code / Codex CLI / Cursor) that scaffolds and extends Go microservices built **exclusively on** [`github.com/tink3rlabs/magic`](https://github.com/tink3rlabs/magic) — magic's `storage`, `middlewares`, `observability`, `health`, `mql`, `errors`, `leadership`, and `pubsub` packages are the only runtime surface every cast may reference. Inspired by [`obra/superpowers`](https://github.com/obra/superpowers).
 
 ## Install
 
@@ -65,7 +65,18 @@ When magic cuts a new tag and a generated service hits an API mismatch, the rele
 
 ## Contributing
 
-Trunk-based, Conventional Commits, branch-protected `main`. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Trunk-based, Conventional Commits, branch-protected `main` (classic protection **and** modern Rulesets — see [`scripts/setup-rulesets.sh`](scripts/setup-rulesets.sh)). Manifest versions in `package.json`, `.claude-plugin/plugin.json`, and `.claude-plugin/marketplace.json` are bumped manually before tagging via [`scripts/bump-version.sh`](scripts/bump-version.sh) — see [`CONTRIBUTING.md`](CONTRIBUTING.md) § *Cutting a release*.
+
+## TODOs / roadmap
+
+Operational follow-ups deferred from v0.1.x:
+
+- [ ] **Re-enable auto-sync of plugin manifests in `release.yml`** once the repo moves under a GitHub org. GitHub's `Integration` bypass for `github-actions[bot]` is not available on user-owned repos, so the bot's push-back is rejected by the `main-protection` ruleset. Two ways to unblock: (a) move to a `lutherwaves` org and add `actor_type: "Integration", actor_id: 15368` to the ruleset bypass, or (b) add a PAT secret scoped to `contents:write` and switch the workflow's push to use it.
+- [ ] **Verify Codex CLI's actual skill-discovery path.** `scripts/install-codex.sh` symlinks into `~/.agents/skills/` on the assumption Codex follows the `agentskills.io` spec. Confirm against the Codex CLI release that ships skills support and adjust if the canonical path differs.
+- [ ] **Harden the SessionStart hook's JSON escaping.** `hooks/session-start` currently escapes `\`, `"`, LF, CR, TAB by hand. Replace with `jq -Rs .` to cover the full C0 control-byte range — robustness only; no active bug.
+- [ ] **Extend `tests/template-smoke.sh` to render route + service-layer + migration templates** into the rendered service before `go vet`/`go build`. Today only `templates/service/` is smoke-covered.
+- [ ] **Dedupe `workflow_run` release runs against rapid `main` pushes.** Today the `concurrency` block serializes but doesn't dedupe by SHA — non-issue until traffic grows.
+- [ ] **Backport API drift fixes into `magic-capabilities` automatically.** When magic cuts a new tag, a script that diffs the package surface and surfaces renamed/removed symbols would prevent silent skill drift.
 
 ## License
 

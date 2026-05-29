@@ -14,13 +14,15 @@ for skill in "$REPO_ROOT"/skills/*/; do
   skill_md="$skill/SKILL.md"
   [ -f "$skill_md" ] || continue
 
-  # Extract description from the SKILL.md frontmatter.
+  # Extract description from the SKILL.md frontmatter and YAML-escape it as a
+  # single-quoted scalar so colons, hashes, leading sigils, etc. survive intact.
   desc=$(awk '/^description:/{sub(/^description: */, ""); print; exit}' "$skill_md")
+  desc_escaped=$(printf "%s" "$desc" | sed "s/'/''/g")
 
   mdc="$RULES_DIR/$name.mdc"
   {
     echo "---"
-    echo "description: $desc"
+    echo "description: '$desc_escaped'"
     echo "alwaysApply: false"
     echo "---"
     echo

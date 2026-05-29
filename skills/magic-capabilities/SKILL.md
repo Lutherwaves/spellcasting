@@ -9,7 +9,7 @@ The authoritative answer to "is X available in `github.com/tink3rlabs/magic`?". 
 
 ## Why this skill exists
 
-Every cast template references only what's in this surface. If a generated file imports a package not listed here — or imports anything from `github.com/blox-eng/common/*` or another project-specific helper — the cast has failed. Revert and use an in-bounds equivalent.
+Every cast template references only what's in this surface. If a generated file imports a package not listed here — or imports anything from a project-specific common library that wraps magic — the cast has failed. Revert and use an in-bounds equivalent.
 
 ## Package surface (v0.17.3)
 

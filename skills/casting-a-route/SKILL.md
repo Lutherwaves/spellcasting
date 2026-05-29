@@ -75,7 +75,7 @@ git commit -m "feat: add ${RESOURCE} route layer"
 
 ## Capability boundary
 
-Routes use `chi`, `chi/render`, `magic/middlewares.ErrorHandler`, `magic/errors`, and (for guarded subroutes only) `magic/middlewares.RequireRole`. No `blox-eng/common/*`, no gate `Guard`. See `magic-capabilities`.
+Routes use `chi`, `chi/render`, `magic/middlewares.ErrorHandler`, `magic/errors`, and (for guarded subroutes only) `magic/middlewares.RequireRole`. No project-specific common libraries; no per-resource ACL authorizers beyond `RequireRole`. See `magic-capabilities`.
 
 ## Doc references
 

@@ -73,7 +73,7 @@ git commit -m "feat: add ${RESOURCE} resource end-to-end"
 
 ## Capability boundary
 
-Stay inside `magic/storage`, `magic/middlewares`, `magic/mql`, `magic/errors`. No `blox-eng/common/*`. See `magic-capabilities` for the in-bounds list.
+Stay inside `magic/storage`, `magic/middlewares`, `magic/mql`, `magic/errors`. No project-specific common libraries. See `magic-capabilities` for the in-bounds list.
 
 ## Doc references
 

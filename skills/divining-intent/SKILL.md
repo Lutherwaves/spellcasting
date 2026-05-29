@@ -123,6 +123,6 @@ Tell the user: "Ready to run this sequence? (yes / edit answers / cancel)"
 
 ## Capability boundary
 
-Every cast you orchestrate is hard-bounded to magic + todo-service surface. If the user's domain requires something not in `magic-capabilities` (e.g. their own rate-limit middleware, blox-eng/common helpers), tell them: "That's outside spellcasting's v0.1 scope — you'll need to add it after the cast finishes." Do not invent imports.
+Every cast you orchestrate is hard-bounded to the magic + todo-service surface. If the user's domain requires something not in `magic-capabilities` (e.g. their own rate-limit middleware, an internal "common" helper package), tell them: "That's outside spellcasting's v0.1 scope — you'll need to add it after the cast finishes." Do not invent imports.
 
 Cross-reference: `magic-capabilities` for the exhaustive in-bounds surface.
